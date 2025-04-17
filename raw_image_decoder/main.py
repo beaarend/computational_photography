@@ -34,7 +34,6 @@ def bilinear_demosaic(bayer_data):
 def white_balance(image, type):
 
     if type == "gray_world":
-        # Gray World
         r_wb = np.mean(image[:,:,0])
         g_wb = np.mean(image[:,:,1])
         b_wb = np.mean(image[:,:,2])
@@ -45,7 +44,6 @@ def white_balance(image, type):
         image[:, :, 2] = np.clip(image[:, :, 2] * beta, 0, 255).astype(np.uint8)
 
     elif type == "white_patch":
-        # White Patch
         max_r = np.max(image[:, :, 0])
         max_g = np.max(image[:, :, 1])
         max_b = np.max(image[:, :, 2])
@@ -79,12 +77,11 @@ def main():
     interpolated_image_bgr = cv2.cvtColor(interpolated_image_8bit, cv2.COLOR_RGB2BGR)
     cv2.imwrite("result_images/grbg_image.png", interpolated_image_bgr)
 
-    white balance
+    # white balance
     print("White balancing...")
     image = cv2.imread("result_images/grbg_image.png")
     white_balance(image, type="gray_world")
     cv2.imwrite("result_images/gw_white_balanced_image.png", image)
-
     white_balance(image, type="white_patch")
     cv2.imwrite("result_images/wp_white_balanced_image.png", image)
 
@@ -95,7 +92,6 @@ def main():
         corrected_image = gamma_correction(image, gamma)
         cv2.imwrite(f"result_images/gamma_corrected_image_{gamma}.png", corrected_image)
 
-    
 
 if __name__ == "__main__":
     main()
